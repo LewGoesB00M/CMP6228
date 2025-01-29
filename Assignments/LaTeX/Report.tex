@@ -16,6 +16,7 @@
 \usepackage{float}  % Allows for floats to be positioned using [H], which correctly
                     % positions them relative to their location within my LaTeX code.
 \usepackage{subcaption}
+\usepackage{csquotes}
 
 % -------------------------------------------------------------------------------
 % Declare biblatex with custom Harvard BCU styling for referencing.
@@ -119,7 +120,7 @@
         {\large \bfseries  \@title}\\[50ex]
         {\@author}\\[2ex]
         {CMP6228 - Deep Neural Networks}\\[2ex]
-        {Module Coordinator: ???}\\[10ex]
+        {Module Coordinator: Khalid Ismail}\\[10ex]
     \end{center}
 \end{titlepage}
 \makeatother
@@ -135,7 +136,77 @@
 
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
-This report covers something maybe
+This module consists of two assignments in a similar fashion to CMP6230. 
+By week 8, you must have found and written a \textbf{proposal} (20\%) detailing 
+the problem to be solved with deep learning.
+
+\para The second assignment is worth 80\%, and is a full report detailing the design, development
+and evaluation of a deep learning model to solve the proposed problem. From this, an immediate 
+observation is once again the medical field - image classification of people with some kind of disease 
+from an X-ray dataset of some sort. Recall previous data sources - Kaggle, IEEE DataPort, UCI ML. Try 
+to avoid the same topics as others if possible, though that's perhaps even less likely than it was in other 
+modules if image classification is the main objective.
+
+\para It is unlikely this module can be completed on your laptop, as TensorFlow 
+will be used. Colab is proposed as an option, which could perhaps be feasible enough, though 
+that may likely depend on the size of the chosen dataset, of which no specific value 
+count was given. (Nor feature count, though this is likely irrelevant in an image classification scenario)
+
+\para Because of this assignment being almost identical to CMP6202 (only difference is the model and 
+the fact that you'll likely be doing image classification rather than text),
+it's likely that elements of it can be adapted to Assignments 1 and 2. It's likely to be a very math-heavy 
+module.
+
+\para The Moodle page for this module is not immediately available; as such, you can't really plan ahead 
+for what will be done on a week-by-week basis. Because of this uncertainty, it might be best to prioritise 
+this module over CMP6207.
+
+\chapter*{Tech stack}
+\begin{itemize}
+    \item Previously seen libraries:
+    \begin{itemize}
+        \item Conda 
+        \item Numpy
+        \item Scipy (sort-of seen before but not properly)
+        \item Scikit-learn 
+    \end{itemize}
+    \item Pillow
+    \begin{itemize}
+        \item An image processing library.
+    \end{itemize}
+    \item h5py
+    \begin{itemize}
+        \item Appears to be used for serialization of models, like Pickle was in CMP6230.
+    \end{itemize}
+    \item Keras \& TensorFlow
+    \begin{itemize}
+        \item Keras apparently uses TensorFlow to maximise efficiency with tensor calculations.
+        \item A tensor is a multidimensional array or matrix.
+    \end{itemize}
+\end{itemize}
+
+\para Keras has two ways of composing models: Sequential and Functional.
+\vspace{10pt}
+\subsubsection{Sequential}
+Multiple predefined models are stacked in a linear pipeline like a stack or queue:
+
+% The second line of this seems to input a NumPy array, as there's no second axis.
+\begin{verbatim}
+    model = Sequential()
+    model.add(Dense(N_HIDDEN, input_shape=(784,)))
+    model.add(Activation('relu'))
+    model.add(Dropout(DROPOUT))
+    model.add(Dense(N_HIDDEN))
+    model.add(Activation('relu'))
+    model.add(Dropout(DROPOUT))
+    model.add(Dense(nb_classes))
+    model.add(Activation('softmax'))
+    model.summary()
+\end{verbatim}
+
+\subsubsection{Functional}
+Uses an API where complex models can be defined such as DAGs (!!!), models with shared layers, 
+or multi-output models. Not much info was given on this, likely requiring your own research.
 
 
 \chapter*{Conclusion}
