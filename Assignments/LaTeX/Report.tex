@@ -155,6 +155,8 @@ will be used. Colab is proposed as an option, which could perhaps be feasible en
 that may likely depend on the size of the chosen dataset, of which no specific value 
 count was given. (Nor feature count, though this is likely irrelevant in an image classification scenario).
 Colab ran epochs \~30-40\% quicker at first glance if the runtime was changed to a GPU.
+You should fine-tune a good amount of epochs; more epochs just increase training time, but will they actually 
+enhance the model that much or will it just plateau? A 3060 Ti processes twice as fast as Colab's free GPU.
 
 \para Because of this assignment being almost identical to CMP6202 (only difference is the model and 
 the fact that you'll likely be doing image classification rather than text),
@@ -185,12 +187,14 @@ this module over CMP6207.
     \item Keras \& TensorFlow
     \begin{itemize}
         \item Keras apparently uses TensorFlow to maximise efficiency with tensor calculations.
+        \item (Or the other way around. Keras is a part of TensorFlow now.)
         \item A tensor is a multidimensional array or matrix.
     \end{itemize}
 \end{itemize}
 
-\para Keras has two ways of composing models: Sequential and Functional.
-\vspace{10pt}
+\para Keras has two ways of composing models: Sequential and Functional. \textbf{Only sequential will be 
+used in the scope of this module.} 
+\vspace{8pt}
 \subsubsection{Sequential}
 Multiple predefined models are stacked in a linear pipeline like a stack or queue:
 
@@ -211,6 +215,7 @@ Multiple predefined models are stacked in a linear pipeline like a stack or queu
 \subsubsection{Functional}
 Uses an API where complex models can be defined such as DAGs (!!!), models with shared layers, 
 or multi-output models. Not much info was given on this, likely requiring your own research.
+\textbf{Although it's good to know that these exist, they won't be used in this module.}  
 
 
 \chapter*{Conclusion}
