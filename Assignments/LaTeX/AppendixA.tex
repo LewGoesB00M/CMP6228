@@ -1,0 +1,28 @@
+% Interesting trick to instead make the chapter number the letter A for this appendix.
+\begingroup
+\renewcommand\thechapter{A}
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}{}{20pt}{\Huge}
+\setcounter{section}{0} % Set the section counter back to 0 so earlier chapters don't interfere.
+\setcounter{figure}{0} % Set the figure counter back to 0 so earlier figures don't interfere.
+
+\chapter*{Appendix A - Windows Subsystem for Linux}
+\addcontentsline{toc}{chapter}{Appendix A - Windows Subsystem for Linux}
+\markboth{Appendix A}{}
+
+As of TensorFlow 2.10's release in September 2022, Windows is no longer natively supported with GPU access \autocite{tensorflow_install_nodate}.
+To circumvent this issue, the official TensorFlow Docker container can be pulled and used on a Windows host \autocite{tensorflow_install_nodate-1}.
+Docker aims to mitigate issues of software incompatibility across devices through containers, which act similarly to virtual machines 
+in that they emulate another system with the necessary dependencies on a host. In this specific case, Docker uses the Windows Subsystem for 
+Linux to virtualize an Ubuntu client that supports TensorFlow's latest releases with GPU support.
+
+\para \textbf{I'm not going to remove this section until I make a final decision on the following:}
+\begin{itemize}
+    \item My RTX 3060 Ti seems to work at the same speed, if not slower, than a Colab GPU.
+    \item My CPU works over 1000x faster than both, but my research shows that this is true for small datasets and the time needed grows exponentially.
+    \item It is possible that the GPU speed issues are due to low VRAM allocation, but this cannot actually be resolved without \textbf{DUAL-BOOTING LINUX.}
+    \item Though, is that even necessary? Tensorflow 2.10 is a version that supports the 3060Ti. If half of the things online use completely outdated 
+    Python versions, why shouldn't I use a slightly outdated TensorFlow version?
+    \item All in all, the decision between Colab and local use will depend entirely on the size of the chosen dataset, though it's likely Colab will win 
+    out. 
+\end{itemize} 
