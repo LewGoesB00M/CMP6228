@@ -1,0 +1,26 @@
+Before any modification:			
+	Score 0.3469 		Lower is better
+	Accuracy 0.9059		Higher is better
+
+SGD 128:						Adam 128:					RMSProp 128:
+	Score 0.2820					Score 0.2934				Score 0.2861 
+	Accuracy 0.9206					Accuracy 0.9204				Accuracy 0.9236
+
+SGD 256:						Adam 256:					RMSProp 256:
+	Score 0.2810					Score 0.3024				Score 0.2890
+	Accuracy 0.9225					Accuracy 0.9165				Accuracy 0.9190
+
+SGD 512:						Adam 512:					RMSProp 512:
+	Score 0.2771					Score 0.3067				Score 0.3000
+	Accuracy 0.9229					Accuracy 0.1982				Accuracy 0.9147
+
+
+50 epoch 512 hidden layer SGD with 256 batch size:
+	Score 0.2773
+	Accuracy 0.9229
+
+SGD appears to be the best optimizer for the MNIST test in this lab. It's worth noting that increasing parameters (epochs, hidden layers)
+doesn't entirely correlate to the results, and can only increase them to a point (a plateau).
+
+It can actually be better in some cases to DECREASE parameters. Overhearing a conversation revealed that people seemed to get higher 
+accuracies when they lowered the batch size to 64. (They were minor improvements, using 60 epochs with 64 batch size.)

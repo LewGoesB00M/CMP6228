@@ -1,0 +1,35 @@
+\chapter{Experimental results}
+"Provide a detailed description of the
+parameter settings, evaluation process, and obtained results."
+
+\section{Hyperparameter tuning}
+
+\begin{itemize}
+    \item Epochs \begin{itemize}
+        \item Number of times the data is sent through the network in training.
+    \end{itemize}
+    \item Batch size \begin{itemize}
+        \item Data isn't all sent into the model at once but rather in partitioned batches 
+        where the size is dictated by this parameter.
+    \end{itemize}
+    \item Learning rate \begin{itemize}
+        \item Considered by some to be the most important hyperparameter. Dictates the 
+        amount that the model's weights are updated by during training. If too small,
+        the model can get stuck. If too big, it may identify a poor solution in one 
+        iteration that then has significant influence on further iterations.
+        \item As the NUMBER decreases (0.1 -> 0.01), this is actually an INCREASE 
+        in learning rate.
+    \end{itemize}
+    
+\end{itemize}
+
+
+\section{Evaluation}
+Appears that some graphs are expected here. \textbf{The raw image files of said plots seem to be 
+expected as part of the submission alongside the code.}
+
+Overfitting can be addressed through regularisation. It can also be addressed by adding dropout layers 
+to the network, which help to ensure the model learns rather than memorises data. Dropout will ignore some 
+neurons while training.
+
+\section{Results}

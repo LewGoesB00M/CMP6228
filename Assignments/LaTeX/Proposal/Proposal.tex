@@ -9,7 +9,7 @@
 	bottom=1in,]{geometry} % Page structure
 
 \usepackage{graphicx} % Required for inserting images
-\graphicspath{{../.images/}} % Any additional images I use (BCU logo, etc) are from here.
+\graphicspath{{../../.images}} % Any additional images I use (BCU logo, etc) are from here.
 
 \usepackage[utf8]{inputenc} % UTF-8 encoding
 \usepackage[T1]{fontenc} % T1 font
@@ -42,7 +42,7 @@
     \printfield{eid}}
 \DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
 
-\addbibresource{Report.bib}
+\addbibresource{Proposal.bib}
 
 % -------------------------------------------------------------------------------
 % To prevent "Chapter N" display for each chapter
@@ -103,9 +103,9 @@
 \newcommand{\para}{\vspace{7pt}\noindent}
 % -------------------------------------------------------------------------------
 
-\title{Title TBC - Find a dataset.}
+\title{Project Proposal}
 \author{Lewis Higgins - Student ID 22133848}
-\date{May 2025}
+\date{March 2025}
 
 % -------------------------------------------------------------------------------
 
@@ -121,7 +121,7 @@
         {\@author}\\[2ex]
         {CMP6228 - Deep Neural Networks}\\[2ex]
         {Module Coordinator: Khalid Ismail}\\[2ex]
-        {Word count excluding figures, references and appendices: XXXX / 3000}\\[10ex]
+        {Word count excluding figures, references and appendices: XXXX / 1500}\\[10ex]
     \end{center}
 \end{titlepage}
 \makeatother
@@ -135,36 +135,41 @@
 \tableofcontents
 \thispagestyle{empty}
 
-\begin{abstract}
-    The brief for this assignment mandates an abstract detailing the main findings of the report,
-    as seen previously in CMP6202 - AI \& ML.  
-\end{abstract}
-
-
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
-"This section should summarise and highlight the aim
-of the report, a brief description of the selected dataset and the achievements
-of the report, and finally describe how the report is organised."
+"This section should summarise and highlight the aim of
+the proposal."
 
-\chapter{Problem statement}
-"Provide a detailed description of the dataset
-and the deep learning problem." 
+\para Khalid recommends that you use text or image data. Select a domain (medical, vehicles, etc)
+and find a suitable dataset that can solve the problem you propose. Do any pneumonia datasets exist?
+There's no named dataset size minimum. Consider a balanced size, as a large dataset of images will 
+take huge amounts of time to train.
 
-\para \textbf{It's likely that you can lift most of this from the proposal.}
-The feedback from the proposal should be out before this report is due. Therefore, you get 
-a slight advantage on this section. Reference literature heavily here, as your use of literature 
-is 25\% of this assignment (20\% overall) on its own.
+If there's some kind of diabetes-related dataset it might be possible to reuse CMP6202's extensive research.
+
+\para \textbf{Datasets must be presented to Khalid to get his confirmation.} 
 
 
-\include{Body/Method}
-\include{Body/ExperimentalResults}
+\chapter{Motivation and objectives}
+"This section should include a description
+of the selected dataset and a detailed description of the problem."
 
+\chapter{Related work}
+% Seems to be a literature review.
+"This section should demonstrate the main concepts
+of related techniques that have been previously used to solve the problem."
+
+\para What have other people done to solve it? How did they do it? 
+
+\chapter{Proposed model}
+"This section should demonstrate the suitability of
+the proposed solution in solving the data science problem"
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
+There doesn't seem to be a mandatory conclusion in the brief. Perhaps if one fits
+it can be done, but it might not be necessary.
 
-\textbf{May also be called the "summary" according to the brief.} 
 
 \addcontentsline{toc}{chapter}{Bibliography}
 \printbibliography
