@@ -1,0 +1,17 @@
+[project]
+name = "labs"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy==1.23.5",
+    "tensorflow-cpu==2.11.1",
+    "tensorflow-intel>=2.11.1",
+    "tensorflow-io-gcs-filesystem==0.31.0",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]
