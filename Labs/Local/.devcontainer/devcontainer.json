@@ -1,6 +1,6 @@
 {
     "name": "Tensorflow GPU Jupyter",
-    "image": "tensorflow/tensorflow:latest-gpu-jupyter",
+    "image": "tensorflow_and_cuda",
     "runArgs": [
       "--gpus=all"
     ],
