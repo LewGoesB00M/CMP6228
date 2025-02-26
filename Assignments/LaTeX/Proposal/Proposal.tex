@@ -128,7 +128,6 @@
 \thispagestyle{empty}
 \newpage
 
-
 % Page counter trick so that the contents page doesn't increment it.
 \setcounter{page}{0}
 
@@ -140,37 +139,75 @@
 "This section should summarise and highlight the aim of
 the proposal."
 
-\para Khalid recommends that you use text or image data. Select a domain (medical, vehicles, etc)
-and find a suitable dataset that can solve the problem you propose. Do any pneumonia datasets exist?
-There's no named dataset size minimum. Consider a balanced size, as a large dataset of images will 
-take huge amounts of time to train.
-
-If there's some kind of diabetes-related dataset it might be possible to reuse CMP6202's extensive research.
-
-\para \textbf{Datasets must be presented to Khalid to get his confirmation.} 
-
-% ! Neither the retinopathy or pneumonia datasets can be stored in this repo due to their file sizes.
-% ? When you submit your code, don't use your coloured comments like these.
 
 \chapter{Motivation and objectives}
 "This section should include a description
 of the selected dataset and a detailed description of the problem."
 
+\section{Dataset choice}
+\textbf{Going with the 
+\href{https://data.mendeley.com/datasets/rscbjbr9sj/3}{PNEUMONIA dataset}} 
+due to research backing and popularity in data science 
+communities (Kaggle).
+
+
+% ? Khalid said this dataset was okay, but you should still note that the datasets you've used in class 
+% ? are measured in megabytes (MNIST is 11MB), whereas this is 1.2GB. Likely means the laptop can't do it. 
+% ? The IMDB data of Lab 5 was the first to start stressing it, and that was only 17MB.
+
+% ! The dataset images are not of consistent resolutions! Can that be addressed somehow?
+
+% ? Show some sample data. Can just be the classes and how many examples of each class,
+% ? you probably don't need to show an actual image from the set.
+% ? You have two classes. Technically three, but identifying the third wouldn't be supervised learning,
+% ? as viral/bacterial pneumonia is not labelled.
+
+\section{Data science problem}
+
+% "The aim is to develop a deep learning model to classify images into X classes."
+% ? Describe any class imbalance and whatnot here.
+% ! Massive class imbalance: Normal 1349, Pneumonia 3883.
+% ? Describe the need for critical evaluation of the model.
+
+% ! Footnote that the dataset contains multiple data science problems. I am only using "chest_xray", the 
+% ! pneumonia identification problem.
+
+
 \chapter{Related work}
-% Seems to be a literature review.
+
+% ! Added a ton of papers using this dataset to Zotero.
+% ? You can use Litmaps to find more.
+
+\section{Introduction}
 "This section should demonstrate the main concepts
 of related techniques that have been previously used to solve the problem."
-
 \para What have other people done to solve it? How did they do it? 
+
+% ! This is sectioned and divided exactly like your literature review.
+% ! This section may be intensely difficult until the examples are uploaded for reference.
+
+\section{Lit Review Topic 1}
+% * Conventional machine learning methods (Random forest, SVM, etc)
+
+\section{Lit Review Topic 2}
+
+
+\section{Lit Review Topic 3}
+
+
+% ?
+% ! Example work has an extra chapter here titled "Concepts of Deep Learning" with 
+% ! sections "Deep Neural Networks" and "Convolutional Neural Networks".
+% ?
 
 \chapter{Proposed model}
 "This section should demonstrate the suitability of
 the proposed solution in solving the data science problem"
 
-\chapter*{Conclusion}
-\addcontentsline{toc}{chapter}{Conclusion}
-There doesn't seem to be a mandatory conclusion in the brief. Perhaps if one fits
-it can be done, but it might not be necessary.
+% ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
+
+
+% ? When you submit your code, don't use your coloured comments like these.
 
 
 \addcontentsline{toc}{chapter}{Bibliography}
