@@ -136,37 +136,108 @@
 
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
-"This section should summarise and highlight the aim of
-the proposal."
+
+In this report, a novel solution is proposed to address a significant data science problem in the medical field, in the form of 
+a deep neural network to accurately identify the presence of pneumonia from an image of a chest X-ray. To do so, this neural network 
+will be trained on a publicly available dataset that has been previously seen across many publications, and advanced techniques 
+for the model will be discussed.
+
+\para This proposal will specifically cover the motivation behind this project before exploring related literature and previous works 
+in great depth. To conclude, an optimal model will be proposed based on the knowledge extracted from these related works. 
+
+% ! Weak. Come back to this probably at the very end.
 
 
 \chapter{Motivation and objectives}
-"This section should include a description
-of the selected dataset and a detailed description of the problem."
+
+\section{Subject area}
+
+Pneumonia is a lower respiratory tract infection (LRTI) commonly caused by viruses or bacteria wherein the alveoli of the lungs 
+become clogged with pus and fluid, which can be life-threatening in people of any age, but especially in children and the elderly
+\autocite{nhsPneumonia2017}. The World Health Organisation (WHO) state that pneumonia is the single largest infectious cause of death 
+in children, killing 808,000 under the age of 5 in 2017 \autocite{whoPneumonia}. Even if pneumonia is survived during the initial infection,
+\textcite{allinsonEarlyChildhoodLower2023} write that those who contract the condition as a child are 93\% more likely to die from respiratory
+diseases later in life.
+
+\para It is therefore imperative that recent technological advancements are leveraged for the quick diagnosis of the infection to allow swift 
+treatment to avoid life-threatening consequences. 
 
 \section{Dataset choice}
-\textbf{Going with the 
-\href{https://data.mendeley.com/datasets/rscbjbr9sj/3}{PNEUMONIA dataset}} 
-due to research backing and popularity in data science 
-communities (Kaggle).
+The chosen dataset is sourced from the Mendeley data repository \autocite{mendeleydataLargeDatasetLabeled}, uploaded and created by  
+\textcite[p.1127]{kermanyIdentifyingMedicalDiagnoses2018} in their research of the applications of neural networks for medical diagnoses\footnote{Because their work was not only on pneumonia, the Mendeley ZIP file contains two separate datasets. This proposal is only for the "chest\_xray" dataset.}. 
+The dataset contains 5,856 images of chest X-ray scans of children taken from the University of California San Diego in America as well as the
+Guangzhou Women and Children's Medical Center in China, and is 1.18GB in size. There are only two classes of images: those with 
+pneumonia and those without, as depicted by Figures \ref{fig:SampleNORMAL} and \ref{fig:SamplePNEUMONIA}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Proposal/SampleNORMAL.jpeg}
+    \caption{A sample image without pneumonia.\label{fig:SampleNORMAL}}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Proposal/SamplePNEUMONIA.jpeg}
+    \caption{A sample image with pneumonia.\label{fig:SamplePNEUMONIA}}
+\end{figure}
 
 
-% ? Khalid said this dataset was okay, but you should still note that the datasets you've used in class 
-% ? are measured in megabytes (MNIST is 11MB), whereas this is 1.2GB. Likely means the laptop can't do it. 
-% ? The IMDB data of Lab 5 was the first to start stressing it, and that was only 17MB.
+\subsection{Additional observations}
+The dataset has already been pre-emptively split into training and testing sets, which saves some preprocessing. 
+However, the data itself is imperfect and will require further preprocessing before being used to train a model. 
+Table \ref{tab:DatasetIssues} denotes the potential issues with the dataset's initial state.
 
-% ! The dataset images are not of consistent resolutions! Can that be addressed somehow?
+\begin{longtable}{ | p{0.25\textwidth} | p{0.65\textwidth} | }
+    \hline
+    \cellcolor{blue!25} Issue & \cellcolor{blue!25} Explanation \\
+    \hline
+    Images are not all the same resolution. & The neural network's input layer will be fixed in size, meaning all input data must be the 
+    same size or the network will be unable to process it. This can be addressed using Keras to automatically resize all images to a given 
+    resolution.\\
+    \hline
+    Class imbalance & The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
+    This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
+    using the techniques discussed in Appendix A.\\
+    \hline
+    \caption{The issues with the dataset before any preprocessing.}\label{tab:DatasetIssues}
+\end{longtable}
 
-% ? Show some sample data. Can just be the classes and how many examples of each class,
-% ? you probably don't need to show an actual image from the set.
-% ? You have two classes. Technically three, but identifying the third wouldn't be supervised learning,
-% ? as viral/bacterial pneumonia is not labelled.
+% ? 234 TestNorm, 390 TestPneu. 1349 TrainNorm, 3883 TrainPneu.
+
 
 \section{Data science problem}
+This dataset poses a clear data science problem pertaining to the classification of these images which will be addressed through the 
+development of a neural network image classification model leveraging supervised learning. The ground truth is already present within  
+% ? A "neural network" model? Be specific.
+the dataset through its file structure, shown below:
+
+\begin{verbatim}
+    .
+    `-- chest_xray/
+        |-- test/
+        |   |-- NORMAL/
+        |   |   |-- NORMAL-4512-0001.jpeg
+        |   |   |-- NORMAL-11419-0001.jpeg
+        |   |   `-- ...234 more images
+        |   `-- PNEUMONIA/
+        |       |-- BACTERIA-40699-0001.jpeg
+        |       |-- BACTERIA-227418-0001.jpeg
+        |       `-- ...388 more images
+        `-- train/
+            |-- NORMAL/
+            |   |-- NORMAL-28501-0001.jpeg
+            |   |-- NORMAL-32326-0001.jpeg
+            |   `-- ...1347 more images
+            `-- PNEUMONIA/
+                |-- BACTERIA-7422-0001.jpeg
+                |-- BACTERIA-30629-0001.jpeg
+                `-- ...3881 more images
+\end{verbatim}
+
+\noindent Files of the appropriate class are stored in the relevant subfolder. When this dataset is loaded, it will be possible to 
+assign the relevant label to each image based on its subfolder of origin.
 
 % "The aim is to develop a deep learning model to classify images into X classes."
-% ? Describe any class imbalance and whatnot here.
-% ! Massive class imbalance: Normal 1349, Pneumonia 3883.
 % ? Describe the need for critical evaluation of the model.
 
 % ! Footnote that the dataset contains multiple data science problems. I am only using "chest_xray", the 

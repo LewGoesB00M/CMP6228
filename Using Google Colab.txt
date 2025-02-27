@@ -1,5 +1,0 @@
-StackOverflow threads and personal experience show that Google Colab begins to horrifically lag after
-roughly 40 minutes of continued use. To fix this, the tab needs to be refreshed.
-
-This is particularly an issue when considering Colab cannot save files from Github without making 
-commits for them. Perhaps use a new branch for assignment work in Colab?
