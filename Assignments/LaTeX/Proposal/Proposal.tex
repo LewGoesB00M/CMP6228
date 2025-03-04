@@ -155,18 +155,23 @@ in great depth. To conclude, an optimal model will be proposed based on the know
 Pneumonia is a lower respiratory tract infection (LRTI) commonly caused by viruses or bacteria wherein the alveoli of the lungs 
 become clogged with pus and fluid, which can be life-threatening in people of any age, but especially in children and the elderly
 \autocite{nhsPneumonia2017}. The World Health Organisation (WHO) state that pneumonia is the single largest infectious cause of death 
-in children, killing 808,000 under the age of 5 in 2017 \autocite{whoPneumonia}. Even if pneumonia is survived during the initial infection,
-\textcite{allinsonEarlyChildhoodLower2023} write that those who contract the condition as a child are 93\% more likely to die from respiratory
-diseases later in life.
+in children, killing 808,000 children under the age of 5 in 2017 \autocite{whoPneumonia}. Furthermore, even if pneumonia is survived during the initial 
+infection, \textcite{allinsonEarlyChildhoodLower2023} studied that those who contract the condition as a child are 93\% more likely to die from 
+respiratory diseases later in life than those who did not.
 
 \para It is therefore imperative that recent technological advancements are leveraged for the quick diagnosis of the infection to allow swift 
-treatment to avoid life-threatening consequences. 
+treatment to avoid life-threatening consequences, both in the short-term and long-term. 
 
 \section{Dataset choice}
 The chosen dataset is sourced from the Mendeley data repository \autocite{mendeleydataLargeDatasetLabeled}, uploaded and created by  
-\textcite[p.1127]{kermanyIdentifyingMedicalDiagnoses2018} in their research of the applications of neural networks for medical diagnoses\footnote{Because their work was not only on pneumonia, the Mendeley ZIP file contains two separate datasets. This proposal is only for the "chest\_xray" dataset.}. 
-The dataset contains 5,856 images of chest X-ray scans of children taken from the University of California San Diego in America as well as the
-Guangzhou Women and Children's Medical Center in China, and is 1.18GB in size. There are only two classes of images: those with 
+\textcite[p.1127]{kermanyIdentifyingMedicalDiagnoses2018} in their research of the applications of neural networks for medical diagnoses.
+The dataset contains 5,856 images of chest X-ray scans of children taken from the
+Guangzhou Women and Children's Medical Center in China, and is 1.18GB in size. \textcite[p.e1]{kermanyIdentifyingMedicalDiagnoses2018} 
+state that the data was heavily screened and scrutinized for confirmation before labelling, which was done by removing low quality or unreadable images,
+and then consulting two expert physicians before labelling the images. The physicians' labelled set was then presented to a third expert, 
+who confirmed their validity. Because of this, there is absolute certainty in the authenticity and validity of the data itself as well as its 
+ground truth labels.
+There are only two classes of images: those with 
 pneumonia and those without, as depicted by Figures \ref{fig:SampleNORMAL} and \ref{fig:SamplePNEUMONIA}.
 
 \begin{figure}[H]
@@ -177,39 +182,58 @@ pneumonia and those without, as depicted by Figures \ref{fig:SampleNORMAL} and \
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{Proposal/SamplePNEUMONIA.jpeg}
+    \includegraphics[width=0.5\textwidth]{Proposal/SamplePNEUMONIA.jpeg}
     \caption{A sample image with pneumonia.\label{fig:SamplePNEUMONIA}}
 \end{figure}
 
+\subsection{Potential issues}
+The dataset has already been pre-emptively split into training and testing sets, which saves having to perform a manual split. 
+However, the data itself is not immediately usable and will require further preprocessing before being used to train a model, namely due to the 
+following issues:
 
-\subsection{Additional observations}
-The dataset has already been pre-emptively split into training and testing sets, which saves some preprocessing. 
-However, the data itself is imperfect and will require further preprocessing before being used to train a model. 
-Table \ref{tab:DatasetIssues} denotes the potential issues with the dataset's initial state.
+\begin{itemize}
+    \item Images are different resolutions.
+    \begin{itemize}
+        \item The sample images vary widely in resolution, with some being substantially higher than others.
+        The neural network's input layer will be fixed in size, meaning all input data must be the 
+        same size or the network will be unable to process it. This can be addressed programmatically using Keras to automatically resize 
+        all images to a given resolution.
+    \end{itemize}
+    \item Class imbalance
+    \begin{itemize}
+        \item The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
+        This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
+        using the techniques discussed in Appendix A.
+    \end{itemize}
+\end{itemize}
 
-\begin{longtable}{ | p{0.25\textwidth} | p{0.65\textwidth} | }
-    \hline
-    \cellcolor{blue!25} Issue & \cellcolor{blue!25} Explanation \\
-    \hline
-    Images are not all the same resolution. & The neural network's input layer will be fixed in size, meaning all input data must be the 
-    same size or the network will be unable to process it. This can be addressed using Keras to automatically resize all images to a given 
-    resolution.\\
-    \hline
-    Class imbalance & The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
-    This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
-    using the techniques discussed in Appendix A.\\
-    \hline
-    \caption{The issues with the dataset before any preprocessing.}\label{tab:DatasetIssues}
-\end{longtable}
+
+% \begin{longtable}{ | p{0.25\textwidth} | p{0.65\textwidth} | }
+%     \hline
+%     \cellcolor{blue!25} Issue & \cellcolor{blue!25} Explanation \\
+%     \hline
+%     Images are not all the same resolution. & The neural network's input layer will be fixed in size, meaning all input data must be the 
+%     same size or the network will be unable to process it. This can be addressed using Keras to automatically resize all images to a given 
+%     resolution.\\
+%     \hline
+%     Class imbalance & The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
+%     This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
+%     using the techniques discussed in Appendix A.\\
+%     \hline
+%     \caption{The issues with the dataset before any preprocessing.}\label{tab:DatasetIssues}
+% \end{longtable}
 
 % ? 234 TestNorm, 390 TestPneu. 1349 TrainNorm, 3883 TrainPneu.
 
+\pagebreak 
 
 \section{Data science problem}
 This dataset poses a clear data science problem pertaining to the classification of these images which will be addressed through the 
-development of a neural network image classification model leveraging supervised learning. The ground truth is already present within  
+development of a neural network image classification model leveraging supervised learning. The ground truth is present within  
 % ? A "neural network" model? Be specific.
-the dataset through its file structure, shown below:
+% ? It'll probably be a CNN.
+the dataset through its file structure\footnote{Because \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s work was not only on pneumonia, the Mendeley ZIP file contains two separate datasets. This proposal is only for the "chest\_xray" dataset.}, shown below:
+\footnote{Shown file names are given as examples, and are not in the direct order they appear in the folders.}
 
 \begin{verbatim}
     .
@@ -221,7 +245,7 @@ the dataset through its file structure, shown below:
         |   |   `-- ...234 more images
         |   `-- PNEUMONIA/
         |       |-- BACTERIA-40699-0001.jpeg
-        |       |-- BACTERIA-227418-0001.jpeg
+        |       |-- VIRUS-4190128-0001
         |       `-- ...388 more images
         `-- train/
             |-- NORMAL/
@@ -230,12 +254,13 @@ the dataset through its file structure, shown below:
             |   `-- ...1347 more images
             `-- PNEUMONIA/
                 |-- BACTERIA-7422-0001.jpeg
-                |-- BACTERIA-30629-0001.jpeg
+                |-- VIRUS-12220-0001.jpeg
                 `-- ...3881 more images
 \end{verbatim}
 
 \noindent Files of the appropriate class are stored in the relevant subfolder. When this dataset is loaded, it will be possible to 
-assign the relevant label to each image based on its subfolder of origin.
+assign the relevant label to each image based on its subfolder of origin. Note that while there are separate files for bacterial and 
+viral pneumonia, an analysis of other works using this dataset, seen in Chapter 2, indicated that this will not be an issue.
 
 % "The aim is to develop a deep learning model to classify images into X classes."
 % ? Describe the need for critical evaluation of the model.
@@ -261,10 +286,10 @@ of related techniques that have been previously used to solve the problem."
 % * Conventional machine learning methods (Random forest, SVM, etc)
 
 \section{Lit Review Topic 2}
-
+% * Literature using this dataset?
 
 \section{Lit Review Topic 3}
-
+% * Neural networks themselves
 
 % ?
 % ! Example work has an extra chapter here titled "Concepts of Deep Learning" with 
@@ -277,11 +302,14 @@ the proposed solution in solving the data science problem"
 
 % ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
 
+% ! Add the word count to the title page before submission.
 
 % ? When you submit your code, don't use your coloured comments like these.
 
 
 \addcontentsline{toc}{chapter}{Bibliography}
 \printbibliography
+
+\include{AppendixA}
 
 \end{document}
