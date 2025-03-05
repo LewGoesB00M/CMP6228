@@ -103,7 +103,7 @@
 \newcommand{\para}{\vspace{7pt}\noindent}
 % -------------------------------------------------------------------------------
 
-\title{Project Proposal}
+\title{Leveraging Convolutional Neural Networks for the identification of Pneumonia}
 \author{Lewis Higgins - Student ID 22133848}
 \date{March 2025}
 
@@ -116,8 +116,8 @@
 \begin{titlepage}
     \begin{center}
         \includegraphics[width=0.7\linewidth]{BCU}\\[4ex]
-        {\huge \bfseries CMP6228 - Deep Learning Project}\\[2ex]
-        {\large \bfseries  \@title}\\[50ex]
+        {\huge \bfseries \@title}\\[2ex]
+        {\large \bfseries  Project Proposal}\\[50ex]
         {\@author}\\[2ex]
         {CMP6228 - Deep Neural Networks}\\[2ex]
         {Module Coordinator: Khalid Ismail}\\[2ex]
@@ -228,12 +228,12 @@ following issues:
 \pagebreak 
 
 \section{Data science problem}
-This dataset poses a clear data science problem pertaining to the classification of these images which will be addressed through the 
-development of a neural network image classification model leveraging supervised learning. The ground truth is present within  
-% ? A "neural network" model? Be specific.
-% ? It'll probably be a CNN.
-the dataset through its file structure\footnote{Because \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s work was not only on pneumonia, the Mendeley ZIP file contains two separate datasets. This proposal is only for the "chest\_xray" dataset.}, shown below:
-\footnote{Shown file names are given as examples, and are not in the direct order they appear in the folders.}
+This dataset poses a clear data science problem pertaining to the binary classification of these images which will be addressed through the 
+development of a convolutional neural network image classification model leveraging supervised learning. 
+The ground truth is present within the dataset through its file structure\footnote{Because \textcite
+{kermanyIdentifyingMedicalDiagnoses2018}'s work was not only on pneumonia, the Mendeley ZIP file contains two 
+separate datasets. This proposal is only for the "chest\_xray" dataset.}, shown below:
+
 
 \begin{verbatim}
     .
@@ -258,7 +258,8 @@ the dataset through its file structure\footnote{Because \textcite{kermanyIdentif
                 `-- ...3881 more images
 \end{verbatim}
 
-\noindent Files of the appropriate class are stored in the relevant subfolder. When this dataset is loaded, it will be possible to 
+\noindent Files of the appropriate class are stored in the relevant subfolder\footnote{Shown file names are given as examples, and are not in the direct order they appear in the folders.}.
+When this dataset is loaded, it will be possible to 
 assign the relevant label to each image based on its subfolder of origin. Note that while there are separate files for bacterial and 
 viral pneumonia, an analysis of other works using this dataset, seen in Chapter 2, indicated that this will not be an issue.
 
@@ -275,9 +276,11 @@ viral pneumonia, an analysis of other works using this dataset, seen in Chapter 
 % ? You can use Litmaps to find more.
 
 \section{Introduction}
-"This section should demonstrate the main concepts
-of related techniques that have been previously used to solve the problem."
-\para What have other people done to solve it? How did they do it? 
+This section of the report aims to demonstrate the main concepts
+of related techniques that have been previously used to solve the problem 
+through a thorough review of surrounding literature.
+
+% ? What have other people done to solve it? How did they do it? 
 
 % ! This is sectioned and divided exactly like your literature review.
 % ! This section may be intensely difficult until the examples are uploaded for reference.
@@ -286,10 +289,10 @@ of related techniques that have been previously used to solve the problem."
 % * Conventional machine learning methods (Random forest, SVM, etc)
 
 \section{Lit Review Topic 2}
-% * Literature using this dataset?
+% * Literature specifically using this dataset?
 
 \section{Lit Review Topic 3}
-% * Neural networks themselves
+% * Neural networks themselves (Types [CNN, etc.])
 
 % ?
 % ! Example work has an extra chapter here titled "Concepts of Deep Learning" with 
