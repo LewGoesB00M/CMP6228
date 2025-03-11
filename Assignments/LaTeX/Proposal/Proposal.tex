@@ -282,22 +282,32 @@ through a thorough review of surrounding literature.
 
 % ? What have other people done to solve it? How did they do it? 
 
-% ! This is sectioned and divided exactly like your literature review.
-% ! This section may be intensely difficult until the examples are uploaded for reference.
+\section{Original machine learning methods}
+% ! This section was written while stressed-out and sleep-deprived and is likely absolute waffle that should be deleted.
+Traditional machine learning methods such as Random Forests, K-Nearest Neighbours and Support 
+Vector Machines have previously been leveraged for pneumonia classification as seen in the works of 
+\textcite{ortiz-toroAutomaticDetectionPneumonia2022}. They state that leveraging these traditional approaches
+alongside the creation of handcrafted textural features 'offers good performance with very low computational complexity',
+as seen in their results wherein they attained an F1-Score
+% ! Equation here for F1.
+of 93\%.
 
-\section{Lit Review Topic 1}
-% * Conventional machine learning methods (Random forest, SVM, etc)
+\para However, leveraging traditional methods on detailed image datasets such as \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s
+relies upon manual feature engineering of textural features, which can unintentionally introduce bias. Dataset bias can significantly harm the generalisation capabilities of produced models \autocite{selvarajuGradCAMVisualExplanations2017}.
+This is because it is possible that the new data given to a deployed model would differ from the preset features used on the original dataset,
+which a biased model would be unable to accurately predict, unlike deep learning methods which can automatically interpret features without 
+manual intervention.
 
-\section{Lit Review Topic 2}
-% * Literature specifically using this dataset?
+% ? Wang et al. (2021) is a good paper showing the difference between traditional & deep learning results, especially Section 4.2 of it.
 
-\section{Lit Review Topic 3}
+\section{Deep Neural Networks}
 % * Neural networks themselves (Types [CNN, etc.])
 
-% ?
-% ! Example work has an extra chapter here titled "Concepts of Deep Learning" with 
-% ! sections "Deep Neural Networks" and "Convolutional Neural Networks".
-% ?
+% ! Find a third topic to add, though I'm not sure what it could be. 
+
+
+
+
 
 \chapter{Proposed model}
 "This section should demonstrate the suitability of
@@ -311,6 +321,9 @@ the proposed solution in solving the data science problem"
 
 
 \addcontentsline{toc}{chapter}{Bibliography}
+
+% ? Prevents bibliography overflowing hbox at the expense of it taking up more lines on the page.
+\emergencystretch=1em
 \printbibliography
 
 \include{AppendixA}
