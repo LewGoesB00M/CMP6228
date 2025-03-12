@@ -282,7 +282,7 @@ through a thorough review of surrounding literature.
 
 % ? What have other people done to solve it? How did they do it? 
 
-\section{Original machine learning methods}
+\section{Traditional machine learning methods}
 % ! This section was written while stressed-out and sleep-deprived and is likely absolute waffle that should be deleted.
 Traditional machine learning methods such as Random Forests, K-Nearest Neighbours and Support 
 Vector Machines have previously been leveraged for pneumonia classification as seen in the works of 
@@ -298,10 +298,25 @@ This is because it is possible that the new data given to a deployed model would
 which a biased model would be unable to accurately predict, unlike deep learning methods which can automatically interpret features without 
 manual intervention.
 
+\para Furthermore, some researchers such as \textcite{wangComparativeAnalysisImage2021} have leveraged both traditional and deep learning 
+techniques on other unrelated datasets, wherein they discovered that the Support Vector Machine they used had an accuracy 10\% lower than 
+a convolutional neural network on a large dataset, though actually had an accuracy 3\% higher on a smaller dataset. They also note, 
+however, that deep learning methods have considerably longer training times than traditional counterparts.
+
 % ? Wang et al. (2021) is a good paper showing the difference between traditional & deep learning results, especially Section 4.2 of it.
 
 \section{Deep Neural Networks}
 % * Neural networks themselves (Types [CNN, etc.])
+
+% ? CNNs are good for image classification because they identify 'features' of an image rather than just the entire image.
+% ? For instance, if I train my network to recognise images of the number 5, what if the 5 was in the corner of the image and not the middle?
+% ? A CNN wouldn't struggle with this, and would likely still identify it where other networks may not.
+
+% ? Apparently, CNNs overfitting on smaller datasets is a big issue, hence why he wanted you to find one of decent size (which you did).
+% ? Dropout is one technique to address this, but another interesting one is data augmentation such as image rotation.
+
+% ? He likely wants you to do augmentation. Consider the computational risk of doing that, though, given you have 6000 images.
+% * It might not be too bad, actually. CIFAR10 is slow because it's 60k images.
 
 % ! Find a third topic to add, though I'm not sure what it could be. 
 
