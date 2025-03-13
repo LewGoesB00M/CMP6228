@@ -22,7 +22,7 @@
 % Declare biblatex with custom Harvard BCU styling for referencing.
 \usepackage[
     useprefix=true,
-    maxcitenames=3,
+    maxcitenames=2, % ! Using 3 causes an issue in the literature review due to name similarities.
     maxbibnames=99,
     style=authoryear,
     dashed=false, 
@@ -155,9 +155,9 @@ in great depth. To conclude, an optimal model will be proposed based on the know
 Pneumonia is a lower respiratory tract infection (LRTI) commonly caused by viruses or bacteria wherein the alveoli of the lungs 
 become clogged with pus and fluid, which can be life-threatening in people of any age, but especially in children and the elderly
 \autocite{nhsPneumonia2017}. The World Health Organisation (WHO) state that pneumonia is the single largest infectious cause of death 
-in children, killing 808,000 children under the age of 5 in 2017 \autocite{whoPneumonia}. Furthermore, even if pneumonia is survived during the initial 
-infection, \textcite{allinsonEarlyChildhoodLower2023} studied that those who contract the condition as a child are 93\% more likely to die from 
-respiratory diseases later in life than those who did not.
+in children, killing 808,000 children under the age of 5 in 2017 \autocite{whoPneumonia}. Furthermore, even if pneumonia is survived during the 
+initial infection, \textcite{allinsonEarlyChildhoodLower2023} studied that those who contract the condition as a child are 93\% more likely to die 
+from respiratory diseases later in life than those who did not.
 
 \para It is therefore imperative that recent technological advancements are leveraged for the quick diagnosis of the infection to allow swift 
 treatment to avoid life-threatening consequences, both in the short-term and long-term. 
@@ -300,13 +300,49 @@ manual intervention.
 
 \para Furthermore, some researchers such as \textcite{wangComparativeAnalysisImage2021} have leveraged both traditional and deep learning 
 techniques on other unrelated datasets, wherein they discovered that the Support Vector Machine they used had an accuracy 10\% lower than 
-a convolutional neural network on a large dataset, though actually had an accuracy 3\% higher on a smaller dataset. They also note, 
-however, that deep learning methods have considerably longer training times than traditional counterparts.
+a convolutional neural network on a large dataset, though actually had an accuracy 3\% higher on a smaller dataset. They also note that
+deep learning methods have considerably longer training times than traditional counterparts.
 
-% ? Wang et al. (2021) is a good paper showing the difference between traditional & deep learning results, especially Section 4.2 of it.
+\para SVMs in particular are the most commonly seen model in works using this dataset. SVMs aim to find the optimal hyperplane 
+which separates one class from another. They are likely the most common due to their high performance and evaluation
+metrics even when many dimensions are introduced, such as in image data. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Proposal/SVM.png}
+    \caption{A cursory overview of an SVM's functionality.\label{fig:SVM}}
+\end{figure}
+
 
 \section{Deep Neural Networks}
 % * Neural networks themselves (Types [CNN, etc.])
+Deep neural networks are the most heavily used methods for classification tasks with this dataset, which can be seen on both the 
+dataset's Kaggle page \autocite{mooneyChestXRayImages2018}, and through a thorough literature search.
+
+\para There are a wide variety of neural network 
+types, though the most suitable and most commonly used neural network architecture across related literature\footnote{Specifically, the works of \textcite{elasnaouiDesignEnsembleDeep2021a,rajpurkarCheXNetRadiologistLevelPneumonia2017,sourabComparisonHybridDeep2022,stephenEfficientDeepLearning2019,umaribrahimConvolutionalNeuralNetwork2022b}} 
+for image classifications such as the one proposed here is a Convolutional Neural Network (CNN).
+CNNs are heavily used for image classification tasks across many fields, including for identifying pneumonia. A more detailed 
+description of the functionality of a CNN can be found in Section \ref{sec:ModelArchitecture}, as this section instead details 
+the accomplishments of other works with \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s dataset.
+
+\para \textcite{elasnaouiDesignEnsembleDeep2021a}'s work is one of the most informative\footnote{It should be noted that they used an altered dataset which they created from merging \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s data with a COVID-19 dataset.}
+%, and had their models also identify whether the pneumonia was from COVID or other causes.}, 
+testing three different pretrained CNNs and then testing combinations of the three merged into different ensemble models. 
+They tested implementations of pretrained InceptionResNet\_V2, MobileNet\_V2, and ResNet50 models, achieving F1-scores of 93.52, 91.62 and 93.47 
+respectively. They also produced an ensemble model containing all three, which achieved their highest F1 score of 94.84. Their work clearly 
+depicts the effectiveness of CNNs in classifying pneumonia.
+
+\para Analysing the works of others published on the dataset's Kaggle page also follows this trend - CNNs are the most optimal choice for this 
+particular classification task, with many achieving accuracies of at least 92\% with minimal overfitting. Many of these works cite the previously 
+mentioned class imbalance, which \textcite{mathurPneumoniaDetectionUsing2020} and others solve with \textbf{data augmentation}. 
+
+\newpage
+\section{Data augmentation}
+
+
+
+\chapter{Deep learning fundamentals}
 
 % ? CNNs are good for image classification because they identify 'features' of an image rather than just the entire image.
 % ? For instance, if I train my network to recognise images of the number 5, what if the 5 was in the corner of the image and not the middle?
@@ -318,22 +354,37 @@ however, that deep learning methods have considerably longer training times than
 % ? He likely wants you to do augmentation. Consider the computational risk of doing that, though, given you have 6000 images.
 % * It might not be too bad, actually. CIFAR10 is slow because it's 60k images.
 
-% ! Find a third topic to add, though I'm not sure what it could be. 
+Deep neural networks are a significant advancement in computing which build greatly upon traditional 
+machine learning techniques especially in fields such as computer vision and image recognition. By leveraging newfound processing power 
+typically found in high-end graphics cards, \textit{neural networks} formed of layers of neurons which replicate the functionality of 
+the human mind can be created to solve problems at higher degrees of accuracy than ever before. A visualisation of a deep neural network 
+is depicted in Figure \ref{fig:NeuralNetwork}.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Proposal/NeuralNetworkCropped.png}
+    \caption{A neural network with input, hidden and output layers \autocite{ibmWhatNeuralNetwork2021}.\label{fig:NeuralNetwork}}
+\end{figure}
 
+% \noindent The input layer consists of the amount of predictor features (such as the pixel colours in an image), which are then fed through 
+% the model sequentially. The hidden layers are the backbone of the model where the actual processing occurs, with the training process dictating 
+% the weight each node should have on the eventual prediction (the 'importance' of each node, put simply). After the hidden layers, the output 
+% layer will consist of nodes equal to the amount of classes in a classification problem. 
 
+\section{Convolutional Neural Networks (CNNs)}
 
 
 \chapter{Proposed model}
 "This section should demonstrate the suitability of
 the proposed solution in solving the data science problem"
 
+\section{Architecture}\label{sec:ModelArchitecture}
+
 % ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
 
 % ! Add the word count to the title page before submission.
 
 % ? When you submit your code, don't use your coloured comments like these.
-
 
 \addcontentsline{toc}{chapter}{Bibliography}
 
