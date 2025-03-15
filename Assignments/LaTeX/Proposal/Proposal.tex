@@ -203,7 +203,7 @@ following issues:
     \begin{itemize}
         \item The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
         This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
-        using the techniques discussed in Appendix A.
+        using the techniques discussed in Section \ref{sec:Augmentation}.
     \end{itemize}
 \end{itemize}
 
@@ -218,7 +218,7 @@ following issues:
 %     \hline
 %     Class imbalance & The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
 %     This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
-%     using the techniques discussed in Appendix A.\\
+%     using the techniques discussed in Section \ref{sec:Augmentation}.\\
 %     \hline
 %     \caption{The issues with the dataset before any preprocessing.}\label{tab:DatasetIssues}
 % \end{longtable}
@@ -310,7 +310,7 @@ metrics even when many dimensions are introduced, such as in image data.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{Proposal/SVM.png}
-    \caption{A cursory overview of an SVM's functionality.\label{fig:SVM}}
+    \caption{A cursory overview of an SVM's functionality \autocite{ibmWhatSupportVector2023}.\label{fig:SVM}}
 \end{figure}
 
 
@@ -334,12 +334,32 @@ respectively. They also produced an ensemble model containing all three, which a
 depicts the effectiveness of CNNs in classifying pneumonia.
 
 \para Analysing the works of others published on the dataset's Kaggle page also follows this trend - CNNs are the most optimal choice for this 
-particular classification task, with many achieving accuracies of at least 92\% with minimal overfitting. Many of these works cite the previously 
-mentioned class imbalance, which \textcite{mathurPneumoniaDetectionUsing2020} and others solve with \textbf{data augmentation}. 
+particular classification task, with many achieving accuracies of at least 92\% with minimal overfitting. 
 
 \newpage
-\section{Data augmentation}
 
+\section{Data augmentation and overfitting}\label{sec:Augmentation}
+Many works on this dataset and related ones cite the previously mentioned class imbalance.
+\textcite{mathurPneumoniaDetectionUsing2020} and others solve this using data augmentation, specifically to boost the number of samples without 
+pneumonia so that the classes are balanced, thereby reducing bias in the eventual trained model.
+To do so, they leverage the ImageDataGenerator from Keras to create artificial additional samples based on the original data through 
+30-degree rotation, 20\% zoom, 10\% horizontal and/or vertical shifting, and horizontal flipping. These processes are all performed randomly,
+and not always in the same order. This ensures a wide variety of differing samples for the model to train on, thereby greatly assisting 
+the training process and eventual model performance metrics, as \textcite{mathurPneumoniaDetectionUsing2020} found with their model attaining 
+an accuracy of 92.6\% and loss of 0.29 on the testing set after 11 epochs of training.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Proposal/MathurModelMetrics.png}
+    \caption{\textcite{mathurPneumoniaDetectionUsing2020}'s model performance.\label{fig:MathurModelMetrics}}
+\end{figure}
+
+\noindent Through the graphs they generated, there were visible substantial improvements on the 11th epoch specifically, wherein validation 
+accuracy and loss massively improved. This was likely found to be the perfect balance before the model started to overfit, which is defined 
+as 'when an algorithm fits too closely or even exactly to its training data' \autocite{ibmWhatOverfittingIBM2021}. An overfit model would 
+show patterns of excellent training accuracy and loss, but poor validation accuracy and loss, which could be seen notably on epochs 3 and 6
+of \textcite{mathurPneumoniaDetectionUsing2020}'s work. If an overfit model was not remedied, it would perform terribly on real-world unseen 
+data, which would go against the objectives of this project.  
 
 
 \chapter{Deep learning fundamentals}
@@ -392,6 +412,5 @@ the proposed solution in solving the data science problem"
 \emergencystretch=1em
 \printbibliography
 
-\include{AppendixA}
 
 \end{document}
