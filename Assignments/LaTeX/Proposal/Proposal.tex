@@ -55,19 +55,8 @@
 {\normalfont\bfseries}{}{0pt}{\Huge}
 
 % -------------------------------------------------------------------------------
-% Custom macro to make an un-numbered footnote.
-
-\newcommand\blfootnote[1]{
-    \begingroup
-    \renewcommand\thefootnote{}\footnote{#1}
-    \addtocounter{footnote}{-1}
-    \endgroup
-}
-
-% -------------------------------------------------------------------------------
 % Fancy headers; used to show my name, BCU logo and current chapter for the page.
 \usepackage{fancyhdr}
-\usepackage{calc}
 \pagestyle{fancy}
 
 \setlength\headheight{37pt} % Set custom header height to fit the image.
@@ -97,9 +86,7 @@
 \usepackage{xcolor} 
 \usepackage{colortbl}
 \usepackage{longtable}
-\usepackage{amssymb}
 % ------------------------------------------------------------------------------
-\usepackage{tcolorbox}
 \newcommand{\para}{\vspace{7pt}\noindent}
 % -------------------------------------------------------------------------------
 
@@ -121,7 +108,7 @@
         {\@author}\\[2ex]
         {CMP6228 - Deep Neural Networks}\\[2ex]
         {Module Coordinator: Khalid Ismail}\\[2ex]
-        {Word count excluding figures, tables, references and appendices: XXXX / 1650}\\[10ex]
+        {Total word count: XXXX / 1650}\\[10ex]
     \end{center}
 \end{titlepage}
 \makeatother
