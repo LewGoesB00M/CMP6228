@@ -365,7 +365,7 @@ Deep neural networks are a significant advancement in computing which build grea
 machine learning techniques especially in fields such as computer vision and image recognition. By leveraging newfound processing power 
 typically found in high-end graphics cards, \textit{neural networks} formed of layers of neurons which replicate the functionality of 
 the human mind can be created to solve problems at higher degrees of accuracy than ever before. A visualisation of a deep neural network 
-is depicted in Figure \ref{fig:NeuralNetwork}.
+is depicted in Figure \ref{fig:NeuralNetwork}, with key concepts detailed in Table \ref{tab:NeuralNetworkComponents}.
 
 \begin{figure}[H]
     \centering
@@ -373,12 +373,93 @@ is depicted in Figure \ref{fig:NeuralNetwork}.
     \caption{A neural network with input, hidden and output layers \autocite{ibmWhatNeuralNetwork2021}.\label{fig:NeuralNetwork}}
 \end{figure}
 
-% \noindent The input layer consists of the amount of predictor features (such as the pixel colours in an image), which are then fed through 
-% the model sequentially. The hidden layers are the backbone of the model where the actual processing occurs, with the training process dictating 
-% the weight each node should have on the eventual prediction (the 'importance' of each node, put simply). After the hidden layers, the output 
-% layer will consist of nodes equal to the amount of classes in a classification problem. 
+\begin{longtable}{ | p{0.225\textwidth} | p{0.725\textwidth} | }
+    \hline
+    \cellcolor{blue!25} Concept & \cellcolor{blue!25} Description \\
+    \hline
+    Neuron & Similar to the human mind, neural networks are formed of synthetic neurons which receive, process and output one 
+    data feature. All layers of a neural network are formed of neurons. \\
+    \hline 
+    Input layer & The first layer of any neural network, in which data is first taken into the network. Input layers 
+    will be of a size equal to the amount of features; for example, a 32x32 image will need an input layer of 1024 neurons. \\
+    \hline
+    Hidden layers & The main processing logic of the neural network is performed in hidden layers. There can theoretically be any 
+    amount of hidden layers in a network, though processing power requirements will grow exponentially. Hidden layers are executed sequentially,
+    meaning that the first hidden layer will feed processed data directly into the second, and so on. This means that models with many hidden 
+    layers ('deep models') will often yield higher accuracies, especially on their training data as they could begin to overfit. 
+    Hidden layers can apply \textbf{weights} and \textbf{biases} to each neuron, which controls the importance of individual features 
+    to the overall model.  \\
+    \hline 
+    Output layer & The final layer of any neural network, where a prediction is received. The output layer will contain neurons equal 
+    to the number of classes in a classification problem (2 in binary, or $n$ in multi classification where $n$ is the number of classes),
+    or exactly one neuron in a regression problem. In a classification problem,
+    the neuron with the highest output is the predicted class. In a regression problem, the single output neuron directly outputs its
+    prediction. \\
+    \hline 
+    Loss functions & Used to measure how well the model is predicting in relation to the actual target values in supervised learning.
+    The loss function used is dependent on what problem the model is solving; regression tasks often use functions such as Mean Squared 
+    Error (MSE), whereas classification tasks will use a cross-entropy function. The specific cross-entropy function once again depends 
+    on the problem, with binary classification models often using Binary Cross-Entropy, whereas multi-class models will typically use 
+    Categorical Cross-Entropy. The overall objective of a model is to minimise the value returned by these functions (the 'loss value').  \\
+    \hline 
+    Optimisers & Another key element in any neural network is the \textbf{optimiser}. There are a wide variety of options,
+    with some of the most common being Stochastic Gradient Descent (SGD), RMSProp, or Adam. The objective of an optimiser 
+    is to minimise model loss by dynamically adjusting the weights and learning rates of the network through a process called 
+    \textbf{backpropagation}, which efficiently computes the gradient of the loss function while accounting for the 
+    network's weights. \\
+    \hline 
+    Activation functions & Used to make a model 
+    less linear, thereby allowing it to learn complex patterns in data, which is especially important when processing image data.
+    The overall purpose of these functions are to dictate whether a neuron should activate (pass data on to the next layer) or not.
+    If the neuron is activated, the output it receives is transformed based on its weights. Activation functions are essential 
+    for backpropagation to ensure the model improves with each training epoch. Common activation functions include Rectified Linear 
+    Unit (ReLU), Sigmoid and Softmax. Sigmoid and Softmax are particularly important in classification problems, with Sigmoid 
+    outputting 0 or 1 for binary classification, and Softmax outputting probabilities for multiclass tasks. Because of this, an activation 
+    function is often used on the output layer.   \\
+    \hline 
+    \caption{Common concepts in any neural network.}\label{tab:NeuralNetworkComponents}
+\end{longtable}
+
 
 \section{Convolutional Neural Networks (CNNs)}
+Convolutional Neural Networks (CNNs) are deep learning architectures designed to process data with a grid-like topology, such as images.
+They consist of multiple specialised layers that extract hierarchical features from input data, enabling tasks like image classification and 
+object detection. Table \ref{tab:CNNFeatures} details the key elements of CNNs.
+
+\begin{longtable}{ | p{0.225\textwidth} | p{0.725\textwidth} | }
+    \hline
+    \cellcolor{blue!25} Feature & \cellcolor{blue!25} Description \\
+    \hline
+    Convolutional filter & Also sometimes referred to as a kernel. These filters are small matrices which effectively slide across 
+    an image, creating a 'feature map', or convoluted feature. The filter \textbf{must} be smaller than the image itself. 
+    A key feature of convolutional filters is that they use shared weights, ensuring that an object recognised in one part of an image 
+    (the number 5 in the middle of the image, for example) can be recognised in a different part of an image. Early convolutional filters 
+    will identify lower-level features such as large shapes, whereas further filters can learn deeper features such as specific objects 
+    or human faces. \\
+    \hline 
+    Pooling layer & The feature map from convolutional filters cannot be directly passed into a new dense layer, and must first be 
+    pooled. Pooling layers reduce the dimensionality of convolutional filters, downsampling them while retaining their key information
+    by summarising features within select regions dependent on the pooling kernel size, which works similarly to the convolutional filter 
+    size. There are two common pooling strategies: max pooling and average pooling, which are visually represented in Figure \ref{fig:Pooling}. \\
+    \hline 
+    Max pooling & When summarising each region, the maximum value is taken. This emphasises more prominent features in the image,
+    while rejecting less prominent features. \\
+    \hline 
+    Average pooling & Computes the average value in each region, which allows more data to be retained at the possible expense of 
+    not emphasising key details. \\
+    \hline
+    Stride & The stride of the convolutional or pooling kernel determines how far the kernel moves every time it takes a sample. 
+    For example, a kernel with stride (2, 2) will move 2 pixels across to the right until it reaches the edge of the image, at which 
+    point it will move 2 pixels down. This also applies to the pooling layer, where it would move 2 columns across the feature map. \\
+    \hline
+    \caption{Key features of Convolutional Neural Networks.}\label{tab:CNNFeatures}
+\end{longtable}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Proposal/PoolingLayers.png}
+    \caption{An example of average and max pooling \autocite{yuMixedPoolingConvolutional2014}.\label{fig:Pooling}}
+\end{figure}
 
 
 \chapter{Proposed model}
