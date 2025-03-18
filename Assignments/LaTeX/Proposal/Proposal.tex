@@ -173,7 +173,7 @@ pneumonia and those without, as depicted by Figures \ref{fig:SampleNORMAL} and \
     \caption{A sample image with pneumonia.\label{fig:SamplePNEUMONIA}}
 \end{figure}
 
-\subsection{Potential issues}
+\subsection{Potential issues}\label{sec:DatasetIssues}
 The dataset has already been pre-emptively split into training and testing sets, which saves having to perform a manual split. 
 However, the data itself is not immediately usable and will require further preprocessing before being used to train a model, namely due to the 
 following issues:
@@ -414,7 +414,7 @@ is depicted in Figure \ref{fig:NeuralNetwork}, with key concepts detailed in Tab
     If the neuron is activated, the output it receives is transformed based on its weights. Activation functions are essential 
     for backpropagation to ensure the model improves with each training epoch. Common activation functions include Rectified Linear 
     Unit (ReLU), Sigmoid and Softmax. Sigmoid and Softmax are particularly important in classification problems, with Sigmoid 
-    outputting 0 or 1 for binary classification, and Softmax outputting probabilities for multiclass tasks. Because of this, an activation 
+    outputting 0 or 1 for binary classification, and Softmax outputting probabilities for multi-class tasks. Because of this, an activation 
     function is often used on the output layer.   \\
     \hline 
     \caption{Common concepts in any neural network.}\label{tab:NeuralNetworkComponents}
@@ -467,6 +467,15 @@ object detection. Table \ref{tab:CNNFeatures} details the key elements of CNNs.
 the proposed solution in solving the data science problem"
 
 \section{Architecture}\label{sec:ModelArchitecture}
+As evidenced by the review of related work conducted across Chapter 2, the most suitable model for
+classifying the pneumonia chest X-rays will be a CNN due to their high proficiency in identifying image 
+features compared to other models.
+
+\para However, as mentioned previously in Section \ref{sec:DatasetIssues}, the dataset's images are not
+all the same resolution, and a class imbalance is present, so significant preprocessing steps will need 
+to be taken; most notably data augmentation and image resizing. In doing so, we can ensure that all 
+data fed to the input layer is consistent and usable in training and evaluating\footnote{While data from the testing set will be resized so that it can be used as input for evaluation, it will not be augmented, as this would defeat the purpose of a train/test split.} 
+the network.
 
 % ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
 
