@@ -1,20 +1,15 @@
 [project]
-name = "labs"
+name = "tensorflow"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "matplotlib>=3.9.4",
-    "numpy==1.23.5",
-    "pandas>=2.1.0",
-    "scikit-learn>=1.6.1",
-    "tensorflow-cpu==2.11.1",
-    "tensorflow-intel>=2.11.1",
-    "tensorflow-io-gcs-filesystem==0.31.0",
-]
-
-[dependency-groups]
-dev = [
+    "h5py==3.9.0",
     "ipykernel>=6.29.5",
+    "numpy==1.26.4",
+    "tensorflow-cpu==2.10",
+    "tensorflow-directml-plugin>=0.4.0.dev230202",
+    "tensorflow-intel>=2.10.1",
+    "tensorflow-io-gcs-filesystem==0.27.0",
 ]

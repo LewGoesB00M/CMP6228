@@ -1,0 +1,7 @@
+Lab 8 features a comparison of training VGG16 in shallow and fine-tuning mode on CIFAR-10.
+9070XT performs 3-4x better than Colab's Tesla T4.
+Strangely, it also made the fine-tuning model way better? Colab's version was 10% acc, but 9070XT was 72% acc.
+
+This is all BEFORE ROCm even supports this card; the current implementation is DirectML via WSL and TensorFlow-CPU/TensorFlow-Intel.
+This was partially notable in GPUvsCPUAlt (deleted since) where the 3060 Ti was actually 10x faster in that specific scenario due to CUDA support.
+However, in the models trained throughout the labs, 9070 XT has proven hugely superior, so perhaps it's an edge case.
