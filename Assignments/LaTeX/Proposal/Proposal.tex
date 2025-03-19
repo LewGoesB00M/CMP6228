@@ -313,9 +313,9 @@ CNNs are heavily used for image classification tasks across many fields, includi
 description of the functionality of a CNN can be found in Section \ref{sec:ModelArchitecture}, as this section instead details 
 the accomplishments of other works with \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s dataset.
 
-\para \textcite{elasnaouiDesignEnsembleDeep2021a}'s work is one of the most informative\footnote{It should be noted that they used an altered dataset which they created from merging \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s data with a COVID-19 dataset.}
+\para \textcite{elasnaouiDesignEnsembleDeep2021a}'s work is one of the most informative\footnote{It should be noted that they used an altered dataset which they created from merging \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s data with a COVID-19 dataset.},
 %, and had their models also identify whether the pneumonia was from COVID or other causes.}, 
-testing three different pretrained CNNs and then testing combinations of the three merged into different ensemble models. 
+and tests three different pretrained CNNs and combinations of them merged into different ensemble models. 
 They tested implementations of pretrained InceptionResNet\_V2, MobileNet\_V2, and ResNet50 models, achieving F1-scores of 93.52, 91.62 and 93.47 
 respectively. They also produced an ensemble model containing all three, which achieved their highest F1 score of 94.84. Their work clearly 
 depicts the effectiveness of CNNs in classifying pneumonia.
@@ -338,7 +338,7 @@ an accuracy of 92.6\% and loss of 0.29 on the testing set after 11 epochs of tra
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{Proposal/MathurModelMetrics.png}
-    \caption{\textcite{mathurPneumoniaDetectionUsing2020}'s model performance.\label{fig:MathurModelMetrics}}
+    \caption{\textcite{mathurPneumoniaDetectionUsing2020}'s model performance over 11 epochs.\label{fig:MathurModelMetrics}}
 \end{figure}
 
 \noindent Through the graphs they generated, there were visible substantial improvements on the 11th epoch specifically, wherein validation 
@@ -361,9 +361,10 @@ data, which would go against the objectives of this project.
 % ? He likely wants you to do augmentation. Consider the computational risk of doing that, though, given you have 6000 images.
 % * It might not be too bad, actually. CIFAR10 is slow because it's 60k images.
 
+\section{What are deep neural networks?}
 Deep neural networks are a significant advancement in computing which build greatly upon traditional 
-machine learning techniques especially in fields such as computer vision and image recognition. By leveraging newfound processing power 
-typically found in high-end graphics cards, \textit{neural networks} formed of layers of neurons which replicate the functionality of 
+machine learning techniques, especially in fields such as computer vision and image recognition. By leveraging newfound processing power 
+typically found in modern graphics cards, \textbf{neural networks} formed of layers of neurons which replicate the functionality of 
 the human mind can be created to solve problems at higher degrees of accuracy than ever before. A visualisation of a deep neural network 
 is depicted in Figure \ref{fig:NeuralNetwork}, with key concepts detailed in Table \ref{tab:NeuralNetworkComponents}.
 
@@ -417,6 +418,29 @@ is depicted in Figure \ref{fig:NeuralNetwork}, with key concepts detailed in Tab
     outputting 0 or 1 for binary classification, and Softmax outputting probabilities for multi-class tasks. Because of this, an activation 
     function is often used on the output layer.   \\
     \hline 
+    Epochs & The amount of times the model is trained on the data, affecting backpropagation as 
+    weights and biases are calculated with each epoch. Too many epochs will eventually lead to 
+    overfitting as the model becomes too calibrated to its training data and becomes unable 
+    to generalise. \\
+    \hline 
+    Batch size & Not all data is given to the model at once during training for multiple reasons,
+    one of the most important being memory usage. Large datasets use considerable amounts of memory,
+    and RAM is a limited resource to the point where some datasets simply cannot fit in memory all 
+    at once. Additionally, by using smaller batches, training can be faster and less computationally 
+    intensive. \\
+    \hline 
+    Validation split & Data is typically split across three sets when training machine learning models.
+    These sets are the training set encompassing the vast majority of the data that the model will 
+    learn from, the testing set containing a small amount of data to evaluate the model's performance 
+    on data it has never previously seen and is used after training has completed, 
+    and the validation set containing a similar proportion of data 
+    to the testing set which is used during training to evaluate performance on unseen data, which helps 
+    to identify overfitting and to fine-tune hyperparameters.\\
+    \hline 
+    Hyperparameters & Epochs, batch size and validation split are a few examples of hyperparameters,
+    which are used to determine the model's behaviour during training. It is an essential part of 
+    model development to tune these hyperparameters to ensure the best possible model is produced. \\
+    \hline
     \caption{Common concepts in any neural network.}\label{tab:NeuralNetworkComponents}
 \end{longtable}
 
@@ -463,23 +487,31 @@ object detection. Table \ref{tab:CNNFeatures} details the key elements of CNNs.
 
 
 \chapter{Proposed model}
-"This section should demonstrate the suitability of
-the proposed solution in solving the data science problem"
-
 \section{Architecture}\label{sec:ModelArchitecture}
 As evidenced by the review of related work conducted across Chapter 2, the most suitable model for
 classifying the pneumonia chest X-rays will be a CNN due to their high proficiency in identifying image 
-features compared to other models.
+features compared to other models. Unfortunately, training a CNN to a good degree of accuracy requires 
+immense amounts of training data which will not be found in this dataset alone. As such, it will be 
+best to leverage pretrained models such as ResNet50 or EfficientNet due to their large training 
+corpus and high performance even in scenarios with class imbalance such as the one presented by this 
+dataset. The model will then have additional layers added for this specific binary classification task.
 
-\para However, as mentioned previously in Section \ref{sec:DatasetIssues}, the dataset's images are not
+\section{Preprocessing}
+% ! Perhaps remove the earlier mention of the dataset's issues, instead moving it to here.
+\para As mentioned previously in Section \ref{sec:DatasetIssues}, the dataset's images are not
 all the same resolution, and a class imbalance is present, so significant preprocessing steps will need 
 to be taken; most notably data augmentation and image resizing. In doing so, we can ensure that all 
 data fed to the input layer is consistent and usable in training and evaluating\footnote{While data from the testing set will be resized so that it can be used as input for evaluation, it will not be augmented, as this would defeat the purpose of a train/test split.} 
 the network.
 
+% ? Write about multiple models.
+\section{Evaluation strategy}
+% ? How will you evaluate your results? Confusion matrix, F1?
+
 % ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
 
 % ! Add the word count to the title page before submission.
+% ! Approximately 1800 currently? Not certain as tables are included by texcount.
 
 % ? When you submit your code, don't use your coloured comments like these.
 
