@@ -17,6 +17,7 @@
                     % positions them relative to their location within my LaTeX code.
 \usepackage{subcaption}
 \usepackage{csquotes}
+\usepackage{amsmath}
 
 % -------------------------------------------------------------------------------
 % Declare biblatex with custom Harvard BCU styling for referencing.
@@ -507,6 +508,41 @@ the network.
 % ? Write about multiple models.
 \section{Evaluation strategy}
 % ? How will you evaluate your results? Confusion matrix, F1?
+The model's performance against its testing data will be thoroughly evaluated, primarily using accuracy, loss and F1-Score as key metrics.
+Accuracy is defined as the total number of correct classifications (positive and negative) divided by the total number of samples,
+which can be visualised as:
+
+\begin{equation}\label{eq:Accuracy}
+    \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}
+\end{equation}
+
+\para F1-Score is the harmonic mean of the model's precision and recall, providing an equally weighted combination of both statistics as one 
+metric. It is particularly useful with imbalanced datasets, including medical datasets, where false classifications can have dire consequences.
+
+\begin{equation}\label{eq:Recall}
+    \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}
+\end{equation}
+
+\begin{equation}\label{eq:Precision}
+    \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}
+\end{equation}
+
+\begin{equation}\label{eq:F1Score}
+    \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{equation}
+
+\newpage 
+
+\para Additionally, visualising the performance of a classification model can be performed using a confusion matrix, which is a simple grid 
+showing the amount of data that was correctly classified as positive ('true positive'), negative ('true negative'), and incorrectly classified
+('false positive', 'false negative'). An example of a confusion matrix is depicted in Figure \ref{fig:ConfusionMatrix}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Proposal/ConfusionMatrix.png}
+    \caption{An example confusion matrix \autocite{datacampWhatConfusionMatrix}. \label{fig:ConfusionMatrix}}
+\end{figure}
+
 
 % ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
 
