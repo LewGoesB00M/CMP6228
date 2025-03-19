@@ -5,3 +5,6 @@ Strangely, it also made the fine-tuning model way better? Colab's version was 10
 This is all BEFORE ROCm even supports this card; the current implementation is DirectML via WSL and TensorFlow-CPU/TensorFlow-Intel.
 This was partially notable in GPUvsCPUAlt (deleted since) where the 3060 Ti was actually 10x faster in that specific scenario due to CUDA support.
 However, in the models trained throughout the labs, 9070 XT has proven hugely superior, so perhaps it's an edge case.
+
+With this update, labs can officially NO LONGER RUN on the laptop due to total software incompatibility (no GPU), 
+though they had already reached a point (CNNs) where they couldn't really anyway. 
