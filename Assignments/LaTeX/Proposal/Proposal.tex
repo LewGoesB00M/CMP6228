@@ -109,31 +109,37 @@
         {\@author}\\[2ex]
         {CMP6228 - Deep Neural Networks}\\[2ex]
         {Module Coordinator: Khalid Ismail}\\[2ex]
-        {Total word count: XXXX / 1650}\\[10ex]
+        {Word count excluding figures, tables \& references: 1647 / 1650}\\[10ex]
     \end{center}
 \end{titlepage}
 \makeatother
 \thispagestyle{empty}
 \newpage
 
-% Page counter trick so that the contents page doesn't increment it.
-\setcounter{page}{0}
+% Page counter trick so that the contents and list pages don't increment it.
+\setcounter{page}{-2}
 
 \tableofcontents
+\thispagestyle{empty}
+
+\listoffigures
+\thispagestyle{empty}
+
+\listoftables
 \thispagestyle{empty}
 
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-In this report, a novel solution is proposed to address a significant data science problem in the medical field, in the form of 
-a deep neural network to accurately identify the presence of pneumonia from an image of a chest X-ray. To do so, this neural network 
-will be trained on a publicly available dataset that has been previously seen across many publications, and advanced techniques 
-for the model will be discussed.
+Pneumonia remains a critical global health issue especially following the COVID-19 pandemic, particularly for more vulnerable populations like 
+children and the elderly. As the leading infectious cause of death in children under five, claiming hundreds of thousands of young lives annually, 
+and a significant risk factor for respiratory complications in later life, rapid and accurate diagnosis is essential to mitigate both immediate 
+and lifelong consequences. This project aims to address these challenges by leveraging modern advancements in deep learning to develop a system 
+for pneumonia detection using chest X-ray images.
 
-\para This proposal will specifically cover the motivation behind this project before exploring related literature and previous works 
-in great depth. To conclude, an optimal model will be proposed based on the knowledge extracted from these related works. 
-
-% ! Weak. Come back to this probably at the very end.
+\para To do so, a Convolutional Neural Network (CNN) architecture enhanced by transfer learning for image recognition is proposed.
+By leveraging deep learning approaches, the proposed model is planned to be an accurate tool for early pneumonia detection, ultimately
+reducing preventable deaths and long-term health burdens worldwide.
 
 
 \chapter{Motivation and objectives}
@@ -151,7 +157,8 @@ from respiratory diseases later in life than those who did not.
 treatment to avoid life-threatening consequences, both in the short-term and long-term. 
 
 \section{Dataset choice}
-The chosen dataset is sourced from the Mendeley data repository \autocite{mendeleydataLargeDatasetLabeled}, uploaded and created by  
+The chosen dataset is sourced from the Mendeley data repository\footnote{A slightly older version of the dataset is available on Kaggle \autocite{mooneyChestXRayImages2018}, though the Mendeley version is the latest.
+Despite there being no noticeable difference between the two, the Mendeley version was used for authenticity as it was from the original author.} \autocite{mendeleydataLargeDatasetLabeled}, uploaded and created by  
 \textcite[p.1127]{kermanyIdentifyingMedicalDiagnoses2018} in their research of the applications of neural networks for medical diagnoses.
 The dataset contains 5,856 images of chest X-ray scans of children taken from the
 Guangzhou Women and Children's Medical Center in China, and is 1.18GB in size. \textcite[p.e1]{kermanyIdentifyingMedicalDiagnoses2018} 
@@ -164,52 +171,43 @@ pneumonia and those without, as depicted by Figures \ref{fig:SampleNORMAL} and \
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\textwidth]{Proposal/SampleNORMAL.jpeg}
-    \caption{A sample image without pneumonia.\label{fig:SampleNORMAL}}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Proposal/SampleNORMAL.jpeg}
+        \caption{No pneumonia.\label{fig:SampleNORMAL}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Proposal/SamplePNEUMONIA.jpeg}
+        \caption{Pneumonia.\label{fig:SamplePNEUMONIA}}
+    \end{subfigure}
+
+    \caption{Sample images from the dataset.}
+    \label{fig:SampleImages}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{Proposal/SamplePNEUMONIA.jpeg}
-    \caption{A sample image with pneumonia.\label{fig:SamplePNEUMONIA}}
-\end{figure}
 
 \subsection{Potential issues}\label{sec:DatasetIssues}
 The dataset has already been pre-emptively split into training and testing sets, which saves having to perform a manual split. 
 However, the data itself is not immediately usable and will require further preprocessing before being used to train a model, namely due to the 
 following issues:
 
-\begin{itemize}
-    \item Images are different resolutions.
-    \begin{itemize}
-        \item The sample images vary widely in resolution, with some being substantially higher than others.
-        The neural network's input layer will be fixed in size, meaning all input data must be the 
-        same size or the network will be unable to process it. This can be addressed programmatically using Keras to automatically resize 
-        all images to a given resolution.
-    \end{itemize}
-    \item Class imbalance
-    \begin{itemize}
-        \item The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
-        This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
-        using the techniques discussed in Section \ref{sec:Augmentation}.
-    \end{itemize}
-\end{itemize}
-
-
-% \begin{longtable}{ | p{0.25\textwidth} | p{0.65\textwidth} | }
-%     \hline
-%     \cellcolor{blue!25} Issue & \cellcolor{blue!25} Explanation \\
-%     \hline
-%     Images are not all the same resolution. & The neural network's input layer will be fixed in size, meaning all input data must be the 
-%     same size or the network will be unable to process it. This can be addressed using Keras to automatically resize all images to a given 
-%     resolution.\\
-%     \hline
-%     Class imbalance & The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
-%     This will lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
-%     using the techniques discussed in Section \ref{sec:Augmentation}.\\
-%     \hline
-%     \caption{The issues with the dataset before any preprocessing.}\label{tab:DatasetIssues}
-% \end{longtable}
+\begin{longtable}{ | p{0.25\textwidth} | p{0.65\textwidth} | }
+    \hline
+    \cellcolor{blue!25} Issue & \cellcolor{blue!25} Explanation \\
+    \hline
+    Images are different resolutions. & The sample images vary widely in resolution, with some being substantially higher than others.
+    The neural network's input layer will be fixed in size, meaning all input data must be the 
+    same size or the network will be unable to process it. This can be addressed programmatically to automatically resize 
+    all images to a given resolution.\\
+    \hline
+    Class imbalance & The training set contains 1,349 samples of patients without pneumonia, but 3,883 samples of patients with pneumonia.
+    This can lead to the model favouring those with pneumonia rather than the underrepresented class of those without. This can be addressed 
+    using the techniques discussed in Section \ref{sec:Augmentation}.\\
+    \hline
+    \caption{The issues with the dataset before any preprocessing.}\label{tab:DatasetIssues}
+\end{longtable}
 
 % ? 234 TestNorm, 390 TestPneu. 1349 TrainNorm, 3883 TrainPneu.
 
@@ -251,17 +249,8 @@ When this dataset is loaded, it will be possible to
 assign the relevant label to each image based on its subfolder of origin. Note that while there are separate files for bacterial and 
 viral pneumonia, an analysis of other works using this dataset, seen in Chapter 2, indicated that this will not be an issue.
 
-% "The aim is to develop a deep learning model to classify images into X classes."
-% ? Describe the need for critical evaluation of the model.
-
-% ! Footnote that the dataset contains multiple data science problems. I am only using "chest_xray", the 
-% ! pneumonia identification problem.
-
 
 \chapter{Related work}
-
-% ! Added a ton of papers using this dataset to Zotero.
-% ? You can use Litmaps to find more.
 
 \section{Introduction}
 This section of the report aims to demonstrate the main concepts
@@ -276,9 +265,7 @@ Traditional machine learning methods such as Random Forests, K-Nearest Neighbour
 Vector Machines have previously been leveraged for pneumonia classification as seen in the works of 
 \textcite{ortiz-toroAutomaticDetectionPneumonia2022}. They state that leveraging these traditional approaches
 alongside the creation of handcrafted textural features 'offers good performance with very low computational complexity',
-as seen in their results wherein they attained an F1-Score
-% ! Equation here for F1.
-of 93\%.
+demonstrated in their results wherein they attained an F1-Score of 93\%.
 
 \para However, leveraging traditional methods on detailed image datasets such as \textcite{kermanyIdentifyingMedicalDiagnoses2018}'s
 relies upon manual feature engineering of textural features, which can unintentionally introduce bias. Dataset bias can significantly harm the generalisation capabilities of produced models \autocite{selvarajuGradCAMVisualExplanations2017}.
@@ -291,9 +278,9 @@ techniques on other unrelated datasets, wherein they discovered that the Support
 a convolutional neural network on a large dataset, though actually had an accuracy 3\% higher on a smaller dataset. They also note that
 deep learning methods have considerably longer training times than traditional counterparts.
 
-\para SVMs in particular are the most commonly seen model in works using this dataset. SVMs aim to find the optimal hyperplane 
-which separates one class from another. They are likely the most common due to their high performance and evaluation
-metrics even when many dimensions are introduced, such as in image data. 
+\para SVMs are the most commonly seen model in traditional machine learning works using this dataset.
+SVMs aim to find the optimal hyperplane which separates one class from another. They are likely the most common due to their high performance and 
+evaluation metrics even when many dimensions are introduced, such as in image data. 
 
 \begin{figure}[H]
     \centering
@@ -303,11 +290,10 @@ metrics even when many dimensions are introduced, such as in image data.
 
 
 \section{Deep Neural Networks}
-% * Neural networks themselves (Types [CNN, etc.])
 Deep neural networks are the most heavily used methods for classification tasks with this dataset, which can be seen on both the 
 dataset's Kaggle page \autocite{mooneyChestXRayImages2018}, and through a thorough literature search.
 
-\para There are a wide variety of neural network 
+\para There are many neural network 
 types, though the most suitable and most commonly used neural network architecture across related literature\footnote{Specifically, the works of \textcite{elasnaouiDesignEnsembleDeep2021a,rajpurkarCheXNetRadiologistLevelPneumonia2017,sourabComparisonHybridDeep2022,stephenEfficientDeepLearning2019,umaribrahimConvolutionalNeuralNetwork2022b}} 
 for image classifications such as the one proposed here is a Convolutional Neural Network (CNN).
 CNNs are heavily used for image classification tasks across many fields, including for identifying pneumonia. A more detailed 
@@ -328,7 +314,7 @@ particular classification task, with many achieving accuracies of at least 92\% 
 
 \section{Data augmentation and overfitting}\label{sec:Augmentation}
 Many works on this dataset and related ones cite the previously mentioned class imbalance.
-\textcite{mathurPneumoniaDetectionUsing2020} and others solve this using data augmentation, specifically to boost the number of samples without 
+\textcite{mathurPneumoniaDetectionUsing2020} and others solve this using data augmentation to boost the number of samples without 
 pneumonia so that the classes are balanced, thereby reducing bias in the eventual trained model.
 To do so, they leverage the ImageDataGenerator from Keras to create artificial additional samples based on the original data through 
 30-degree rotation, 20\% zoom, 10\% horizontal and/or vertical shifting, and horizontal flipping. These processes are all performed randomly,
@@ -410,6 +396,16 @@ is depicted in Figure \ref{fig:NeuralNetwork}, with key concepts detailed in Tab
     \textbf{backpropagation}, which efficiently computes the gradient of the loss function while accounting for the 
     network's weights. \\
     \hline 
+    Learning rate & A key parameter of an optimiser is its learning rate, which dictates how fast patterns will be learned in 
+    the data for backpropagation. If this is too high, the model may learn patterns which are not truly present, and will see 
+    lower accuracy and other metrics as a result. If it is too low, the model may take considerably more epochs to train.
+    Balancing the learning rate is a good way to maximise model performance while minimising training time. \\
+    \hline 
+    Epochs & The amount of times the model is trained on the data, affecting backpropagation as 
+    weights and biases are calculated with each epoch. Too many epochs will eventually lead to 
+    overfitting as the model becomes too calibrated to its training data and becomes unable 
+    to generalise. \\
+    \hline
     Activation functions & Used to make a model 
     less linear, thereby allowing it to learn complex patterns in data, which is especially important when processing image data.
     The overall purpose of these functions are to dictate whether a neuron should activate (pass data on to the next layer) or not.
@@ -418,11 +414,6 @@ is depicted in Figure \ref{fig:NeuralNetwork}, with key concepts detailed in Tab
     Unit (ReLU), Sigmoid and Softmax. Sigmoid and Softmax are particularly important in classification problems, with Sigmoid 
     outputting 0 or 1 for binary classification, and Softmax outputting probabilities for multi-class tasks. Because of this, an activation 
     function is often used on the output layer.   \\
-    \hline 
-    Epochs & The amount of times the model is trained on the data, affecting backpropagation as 
-    weights and biases are calculated with each epoch. Too many epochs will eventually lead to 
-    overfitting as the model becomes too calibrated to its training data and becomes unable 
-    to generalise. \\
     \hline 
     Batch size & Not all data is given to the model at once during training for multiple reasons,
     one of the most important being memory usage. Large datasets use considerable amounts of memory,
@@ -493,7 +484,7 @@ As evidenced by the review of related work conducted across Chapter 2, the most 
 classifying the pneumonia chest X-rays will be a CNN due to their high proficiency in identifying image 
 features compared to other models. Unfortunately, training a CNN to a good degree of accuracy requires 
 immense amounts of training data which will not be found in this dataset alone. As such, it will be 
-best to leverage pretrained models such as ResNet50 or EfficientNet due to their large training 
+best to leverage transfer learning with pretrained models such as ResNet50 or EfficientNet due to their large training 
 corpus and high performance even in scenarios with class imbalance such as the one presented by this 
 dataset. The model will then have additional layers added for this specific binary classification task.
 
@@ -505,12 +496,48 @@ to be taken; most notably data augmentation and image resizing. In doing so, we 
 data fed to the input layer is consistent and usable in training and evaluating\footnote{While data from the testing set will be resized so that it can be used as input for evaluation, it will not be augmented, as this would defeat the purpose of a train/test split.} 
 the network.
 
-% ? Write about multiple models.
-\section{Evaluation strategy}
+\section{Hyperparameters}
+The proposed model's hyperparameters for its initial development, which were previously defined in Table \ref{tab:Hyperparameters}, 
+will be as follows:
+
+\begin{longtable}{ | p{0.225\textwidth} | p{0.15\textwidth} | p{0.5\textwidth} | }
+    \hline
+    \cellcolor{blue!25} Hyperparameter & \cellcolor{blue!25} Value & \cellcolor{blue!25} Explanation \\
+    \hline
+    Loss function & Binary cross-entropy & The objective of the model will be to classify images in \textbf{one of two} classes: 
+    having pneumonia or not having pneumonia. As such, a loss function designed for binary classification is necessary,
+    with binary cross-entropy fulfilling this purpose. \\
+    \hline
+    Optimiser & Adam & Multiple works\footnote{Specifically, those of \textcite{malikCDC_NetMulticlassificationConvolutional2023a,elasnaouiDesignEnsembleDeep2021a}.} utilise the Adam optimiser on this dataset and others, which allowed them to attain 
+    minimal loss values with their trained models. However, this parameter is subject to change, with SGD and RMSProp also in 
+    consideration. The best performing of the three will be used for the final model. \\
+    \hline 
+    Epochs & 20 & While 20 may seem like a low amount of epochs especially in comparison to \textcite{elasnaouiDesignEnsembleDeep2021a}'s 
+    250-epoch model, it is important to note the processing power limitations and time constraints of this project, 
+    which are detailed in Appendix A. Furthermore, works with as few as 11 epochs \autocite{mathurPneumoniaDetectionUsing2020}
+    still demonstrated excellent results, showing that more epochs do not directly correlate to higher model performance. \\
+    \hline
+    Input shape & (224, 224, 1) & The images are originally of variable high resolutions that would greatly impact the processing requirements 
+    to train the model. Resizing them to a standardised lower resolution minimises these requirements while also allowing them to be used 
+    for transfer learning, as this resolution is used for the input layer of ResNet50 models. The 1 in the input shape represents the 
+    colour channels, but because these are all greyscale images, there is only one channel. \\
+    \hline 
+    Validation split & 80\% to 20\% & The training set will be split at an 80\% training to 20\% validation ratio to evaluate the model's 
+    performance as it trains. This maximises training data while still maintaining a good amount of data to evaluate on. \\
+    \hline 
+    Evaluation metrics & Accuracy, F1-Score & See Section \ref{sec:Eval} for further information. \\
+    \hline
+    \caption{Proposed hyperparameter values and explanations for initial development.}\label{tab:Hyperparameters}
+\end{longtable}
+
+
+\newpage
+
+\section{Evaluation strategy}\label{sec:Eval}
 % ? How will you evaluate your results? Confusion matrix, F1?
 The model's performance against its testing data will be thoroughly evaluated, primarily using accuracy, loss and F1-Score as key metrics.
-Accuracy is defined as the total number of correct classifications (positive and negative) divided by the total number of samples,
-which can be visualised as:
+Accuracy is defined as the total number of correct positive and negative classifications (true positive and true negative) 
+divided by the total number of samples (including false positives and false negatives), which can be visualised as:
 
 \begin{equation}\label{eq:Accuracy}
     \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}
@@ -531,9 +558,7 @@ metric. It is particularly useful with imbalanced datasets, including medical da
     \text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
 \end{equation}
 
-\newpage 
-
-\para Additionally, visualising the performance of a classification model can be performed using a confusion matrix, which is a simple grid 
+\para Additionally, these metrics can be paired with a confusion matrix, which is a simple grid 
 showing the amount of data that was correctly classified as positive ('true positive'), negative ('true negative'), and incorrectly classified
 ('false positive', 'false negative'). An example of a confusion matrix is depicted in Figure \ref{fig:ConfusionMatrix}.
 
@@ -544,12 +569,6 @@ showing the amount of data that was correctly classified as positive ('true posi
 \end{figure}
 
 
-% ? The model proposed here doesn't *need* to be the one you eventually use, but you should.
-
-% ! Add the word count to the title page before submission.
-% ! Approximately 1800 currently? Not certain as tables are included by texcount.
-
-% ? When you submit your code, don't use your coloured comments like these.
 
 \addcontentsline{toc}{chapter}{Bibliography}
 
@@ -557,5 +576,6 @@ showing the amount of data that was correctly classified as positive ('true posi
 \emergencystretch=1em
 \printbibliography
 
+\include{AppendixA}
 
 \end{document}
