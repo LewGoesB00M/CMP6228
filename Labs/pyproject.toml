@@ -8,6 +8,8 @@ dependencies = [
     "h5py==3.9.0",
     "ipykernel>=6.29.5",
     "numpy==1.26.4",
+    "pandas>=2.2.3",
+    "seaborn>=0.13.2",
     "tensorflow-cpu==2.10",
     "tensorflow-directml-plugin>=0.4.0.dev230202",
     "tensorflow-intel>=2.10.1",
